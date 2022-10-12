@@ -1,5 +1,8 @@
 package com.epcard.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Product(val name: String, val category:ProductCategory,val origin:OriginType,val pellet:Boolean,val recycled:Boolean,val reused:Boolean,val renewable:Boolean,val recyclable:Boolean,
                    val hasInsulation:Boolean,val co2:Float,val ch4:Float,val reuseWaste:Int) {
     var discount:Float = calcRating()
@@ -21,7 +24,9 @@ data class Product(val name: String, val category:ProductCategory,val origin:Ori
     }
 
 }
-enum class ProductCategory{}
+enum class ProductCategory{
+    ELECTRONICS,HOME,OFFICE,BEAUTY,HEALTH,TOYS,CAR,CAR_ACCESSORY,SPORT,FASHION,FOOD
+}
 enum class OriginType{
     DOMESTIC,IMPORTEDDOMESTIC,IMPORTED
 }

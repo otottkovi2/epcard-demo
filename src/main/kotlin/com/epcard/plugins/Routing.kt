@@ -1,5 +1,7 @@
 package com.epcard.plugins
 
+import com.epcard.controllers.ControllerFactory
+import com.epcard.models.Product
 import io.ktor.server.routing.*
 import io.ktor.http.*
 import io.ktor.server.http.content.*
@@ -19,10 +21,24 @@ fun Application.configureRouting() {
         }
 
     }
-
+    val controller = ControllerFactory().controller
     routing {
         get("/") {
-            call.respondText("Hello World!")
+            call.respondText("poggers it works!")
+        }
+
+        get("/api/read"){
+            controller.fillList()
+            call.respond(controller.products)
+        }
+
+        get("/api/submit"){
+            call.respond(HttpStatusCode.BadRequest)
+        }
+
+        post("/api/submit"){
+            val product = call.receive<Product>()
+            controller.addProduct(product)
         }
         // Static plugin. Try to access `/static/index.html`
         static("/static") {

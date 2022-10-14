@@ -1,0 +1,21 @@
+GET localhost:8080/
+Content-Type: application/json
+###
+
+GET localhost:8080/api/read
+Content-Type: application/json
+###
+
+GET localhost:8080/api/read/15
+Content-Type: application/json
+###
+
+POST localhost:8080/api/submit
+Accept: application/json
+
+{
+       "name":"sajt",
+       "category":1,
+       "origin":0,
+       "pellet":true
+}

@@ -1,6 +1,7 @@
 package com.epcard.controllers
 
 import com.epcard.models.Product
+import io.ktor.server.plugins.*
 
 class DbController {
     private val db:MySQLConnector = MySQLConnector()
@@ -14,7 +15,7 @@ class DbController {
         products = ArrayList()
         var i = 0
         while (i < db.length()){
-            products.add(db.getProduct(i) as Product)
+            db.getProduct(i)?.let { products.add(it)  }
             i++
         }
     }
@@ -24,6 +25,8 @@ class DbController {
         fillList()
     }
 
-
+    fun getProduct(index: Int): Product {
+        return db.getProduct(index) ?: throw NotFoundException()
+    }
 
 }

@@ -10,22 +10,22 @@ import java.sql.Statement
 
 class MySQLConnector {
     private val connection:Connection = connect()
-    val dbName:String = "zoli adatbázisa"
-    val user:String = "user"
-    val pw:String = "pw"
-    val tableName:String = "table"
-    val idName:String = "id"
-    val nameColName:String = "név"
-    val catColName:String = "kategória"
-    val originColName:String = "származási hely"
-    val pelletColName:String = "raklap"
-    val recycledColName:String = "újrahasznosított"
-    val renewableColName:String = "megújuló energia"
-    val recyclableColName:String = "újrahasznosítható"
-    val reusableColName:String = "újrafelhasználható"
-    val insColName:String = "szigetelés"
-    val coColName:String = "co2 kibocsátás"
-    val chColName:String = "ch4 kibocsátás"
+    private val dbName:String = "zoli adatbázisa"
+    private val user:String = "user"
+    private val pw:String = "pw"
+    private val tableName:String = "table"
+    private val idName:String = "id"
+    private val nameColName:String = "név"
+    private val catColName:String = "kategória"
+    private val originColName:String = "származási hely"
+    private val pelletColName:String = "raklap"
+    private val recycledColName:String = "újrahasznosított"
+    private val renewableColName:String = "megújuló energia"
+    private val recyclableColName:String = "újrahasznosítható"
+    private val reusableColName:String = "újrafelhasználható"
+    private val insColName:String = "szigetelés"
+    private val coColName:String = "co2 kibocsátás"
+    private val chColName:String = "ch4 kibocsátás"
     private val reWasteColName:String = "újrahasznosított szemét"
     init{
         try{
@@ -43,7 +43,7 @@ class MySQLConnector {
         }
     }
 
-    fun getProduct(index:Int):Product{
+    fun getProduct(index:Int):Product?{
         val query = connection.createStatement()
         val queryText = "SELECT * FROM $tableName WHERE $idName=${index+1}"
         val result = query.executeQuery(queryText)
@@ -51,6 +51,7 @@ class MySQLConnector {
         result.next()
         for(i in 0..index) result.next()
         val name =  result.getString(nameColName)
+        if(name == "null") return null
             val catEnum = when(result.getInt(catColName)){
                 0 -> ProductCategory.ELECTRONICS
                 1 -> ProductCategory.BEAUTY

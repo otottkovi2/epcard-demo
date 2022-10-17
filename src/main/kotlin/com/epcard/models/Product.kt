@@ -3,8 +3,8 @@ package com.epcard.models
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Product(val name: String, val category:ProductCategory,val origin:OriginType,val pellet:Boolean,val recycled:Boolean,val reused:Boolean,val renewable:Boolean,val recyclable:Boolean,
-                   val hasInsulation:Boolean,val co2:Float,val ch4:Float,val reuseWaste:Int) {
+data class Product(val name: String,val password:String,val companyName:String,val category:ProductCategory,val origin:OriginType,val pellet:Boolean,val recycled:Boolean,val reused:Boolean,
+                   val renewable:Boolean,val recyclable:Boolean, val hasInsulation:Boolean,val co2:Float,val ch4:Float,val reuseWaste:Int) {
     var discount:Float = calcRating()
 
     private fun calcRating():Float{

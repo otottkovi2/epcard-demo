@@ -13,15 +13,15 @@ class DbController {
 
     fun fillList(){
         products = ArrayList()
-        var i = 0
-        while (i < db.length()){
-            db.getProduct(i)?.let { products.add(it)  }
-            i++
-        }
+        for(i in 0 until db.length())products.add(getProduct(i))
     }
 
     fun addProduct(product: Product){
-        db.addItem(product)
+        try{
+            db.addItem(product)
+        } catch (e:Exception){
+            println("submitting product failed! " + e.message)
+        }
         fillList()
     }
 

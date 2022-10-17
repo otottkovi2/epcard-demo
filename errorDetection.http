@@ -15,7 +15,16 @@ Accept: application/json
 
 {
        "name":"sajt",
-       "category":1,
+       "companyName":"ZOP Games"
+       "category":"0",
        "origin":0,
-       "pellet":true
+       "pellet":true,
+       "recycled":true,
+       "reused":true,
+       "renewable":true,
+       "recyclable":true,
+       "hasInsulation":true,
+       "co2":2,
+       "ch4":23,
+       "reauseWaste":1
 }

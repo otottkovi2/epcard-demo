@@ -10,34 +10,37 @@ import java.sql.Statement
 
 class MySQLConnector {
     private val connection:Connection = connect()
-    private val dbName:String = "zoli adatbázisa"
-    private val user:String = "user"
-    private val pw:String = "pw"
-    private val tableName:String = "table"
+    private val dbName:String = "84.21.182.8"
+    private val user:String = "tomi"
+    private val pw:String = "Maszat19"
+    private val tableName:String = "industrys"
     private val idName:String = "id"
-    private val nameColName:String = "név"
-    private val catColName:String = "kategória"
-    private val originColName:String = "származási hely"
-    private val pelletColName:String = "raklap"
-    private val recycledColName:String = "újrahasznosított"
-    private val renewableColName:String = "megújuló energia"
-    private val recyclableColName:String = "újrahasznosítható"
-    private val reusableColName:String = "újrafelhasználható"
-    private val insColName:String = "szigetelés"
-    private val coColName:String = "co2 kibocsátás"
-    private val chColName:String = "ch4 kibocsátás"
-    private val reWasteColName:String = "újrahasznosított szemét"
-    init{
+    private val nameColName:String = "name"
+    private val pwColName:String = "password"
+    private val companyName:String = "company"
+    private val catColName:String = "category"
+    private val originColName:String = "place_of_origin"
+    private val pelletColName:String = "pallet"
+    private val recycledColName:String = "recycled"
+    private val renewableColName:String = "renewable_energy"
+    private val recyclableColName:String = "can_be_recycled"
+    private val reusableColName:String = "reusable"
+    private val insColName:String = "insulation"
+    private val coColName:String = "co2"
+    private val chColName:String = "ch4"
+    private val reWasteColName:String = "recycled_garbage"
+    /*init{
         try{
-            Class.forName("com.mysql.jdbc.driver")
+            Class.forName("org.mariadb.jdbc")
         } catch (e:Exception){
             error("mySQL connector init failed! " + e.message)
         }
-    }
+    }*/
 
     private fun connect():Connection{
+        println(dbName)
         try{
-            return DriverManager.getConnection("jdbc:mysql/${dbName}/user=${user}=password=${pw}")
+            return DriverManager.getConnection("jdbc:mariadb://84.21.182.8:3306/epcardtest?user=tomi&password=Maszat19")
         } catch (e:SQLException){
             error("mySQL connection failed! " + e.message)
         }
@@ -47,12 +50,13 @@ class MySQLConnector {
         val query = connection.createStatement()
         val queryText = "SELECT * FROM $tableName WHERE $idName=${index+1}"
         val result = query.executeQuery(queryText)
-        query.close()
         result.next()
-        for(i in 0..index) result.next()
+        for(i in 0 until index) result.next()
         val name =  result.getString(nameColName)
-        if(name == "null") return null
-            val catEnum = when(result.getInt(catColName)){
+        val pw = result.getString(pwColName)
+        if(pw == "") return null
+        val company = result.getString(companyName)
+        val catEnum = when(result.getInt(catColName)){
                 0 -> ProductCategory.ELECTRONICS
                 1 -> ProductCategory.BEAUTY
                 2 -> ProductCategory.CAR
@@ -81,7 +85,8 @@ class MySQLConnector {
         val co2  =  result.getFloat(coColName)
         val ch4  =  result.getFloat(chColName)
         val reWaste  =  result.getInt(reWasteColName)
-        return Product(name = name, category = catEnum, origin = orgEnum, pellet = pellet, recycled = recycled, renewable = renewable, recyclable = recyclable, hasInsulation = insulation, co2 = co2,ch4 = ch4, reuseWaste = reWaste, reused = reusable)
+        //query.close()
+        return Product(name = name, password = pw, companyName = company,category = catEnum, origin = orgEnum, pellet = pellet, recycled = recycled, renewable = renewable, recyclable = recyclable, hasInsulation = insulation, co2 = co2,ch4 = ch4, reuseWaste = reWaste, reused = reusable)
 
     }
 
@@ -90,15 +95,15 @@ class MySQLConnector {
         val queryText = "SELECT count(*) FROM $tableName"
         val result = query.executeQuery(queryText)
         result.next()
-        val len = result.getInt(0)
+        val len = result.getInt(1)
         query.close()
 
         return len
     }
     fun addItem(product: Product){
         val query:Statement = connection.createStatement()
-        val queryText:String = "INSERT INTO $tableName ('$nameColName','$catColName','$originColName','$pelletColName','$recycledColName','$renewableColName'," +
-                "'$recyclableColName','$reusableColName','$insColName','$coColName','$chColName','$reWasteColName') VALUES ('${product.name}',${product.category.ordinal}," +
+        val queryText:String = "INSERT INTO $tableName (`$nameColName`,`$pwColName`,`$companyName`,`$catColName`,`$originColName`,`$pelletColName`,`$recycledColName`,`$renewableColName`," +
+                "`$recyclableColName`,`$reusableColName`,`$insColName`,`$coColName`,`$chColName`,`$reWasteColName`) VALUES ('${product.name}','${product.password}','${product.companyName}',${product.category.ordinal}," +
                 "${product.origin.ordinal},${product.pellet},${product.recycled},${product.renewable},${product.recyclable},${product.reused}," +
                 "${product.hasInsulation},${product.co2},${product.ch4},${product.reuseWaste})"
         val result = query.executeQuery(queryText)

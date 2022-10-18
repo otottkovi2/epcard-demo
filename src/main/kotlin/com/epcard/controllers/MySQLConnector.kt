@@ -9,7 +9,6 @@ import java.sql.SQLException
 import java.sql.Statement
 
 class MySQLConnector {
-    private val connection:Connection = connect()
     private val dbName:String = "84.21.182.8"
     private val user:String = "tomi"
     private val pw:String = "Maszat19"
@@ -29,6 +28,7 @@ class MySQLConnector {
     private val coColName:String = "co2"
     private val chColName:String = "ch4"
     private val reWasteColName:String = "recycled_garbage"
+    private val connection:Connection = connect()
     /*init{
         try{
             Class.forName("org.mariadb.jdbc")
@@ -38,9 +38,8 @@ class MySQLConnector {
     }*/
 
     private fun connect():Connection{
-        println(dbName)
         try{
-            return DriverManager.getConnection("jdbc:mariadb://84.21.182.8:3306/epcardtest?user=tomi&password=Maszat19")
+            return DriverManager.getConnection("jdbc:mariadb://$dbName:3306/epcardtest?user=$user&password=$pw")
         } catch (e:SQLException){
             error("mySQL connection failed! " + e.message)
         }

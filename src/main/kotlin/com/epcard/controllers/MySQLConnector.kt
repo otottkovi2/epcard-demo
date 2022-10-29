@@ -100,6 +100,11 @@ class MySQLConnector {
         return len
     }
     fun addItem(product: Product){
+        product.apply {
+            if(checkSqlInject(name) || checkSqlInject(password) || checkSqlInject(companyName)) {
+                error("Someone tried tried SQL injection! KEKW")
+            }
+        }
         val query:Statement = connection.createStatement()
         val queryText:String = "INSERT INTO $tableName (`$nameColName`,`$pwColName`,`$companyName`,`$catColName`,`$originColName`,`$pelletColName`,`$recycledColName`,`$renewableColName`," +
                 "`$recyclableColName`,`$reusableColName`,`$insColName`,`$coColName`,`$chColName`,`$reWasteColName`) VALUES ('${product.name}','${product.password}','${product.companyName}',${product.category.ordinal}," +
@@ -107,5 +112,9 @@ class MySQLConnector {
                 "${product.hasInsulation},${product.co2},${product.ch4},${product.reuseWaste})"
         val result = query.executeQuery(queryText)
         if(result.warnings != null) result.warnings.message?.let { error(it) }
+    }
+
+    private fun checkSqlInject(input:String):Boolean{
+        return input.matches(Regex("\\d+\\s?(or|OR)\\s?(.=.)+|\"\\s*(or|OR)\\s*\"\"=\"|;+\\s*\\w+"))
     }
 }

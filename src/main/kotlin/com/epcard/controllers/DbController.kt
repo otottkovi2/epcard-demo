@@ -12,8 +12,7 @@ class DbController {
     }
 
     fun fillList(){
-        products = ArrayList()
-        for(i in 0 until db.length())products.add(getProduct(i))
+        products = db.getAllProducts()
     }
 
     fun addProduct(product: Product){

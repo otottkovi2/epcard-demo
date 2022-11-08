@@ -1,7 +1,137 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="wnameth=device-wnameth, initial-scale=1.0">
+    <title>EPS test form</title>
+    <style>
+        body *{
+            margin: 1em;
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            align-items: center;
+        }
+        form *{
+            width: 50%;
+        }
+    </style>
 </head>
 <body>
-<h1>Hello Ktor!</h1>
+    <h1>EPS test form - for technical testing</h1>
+    <label for="debug_target">IP of host:<input name="debug_target"></label>
+
+    <form action="http://127.0.0.1:8080/api/submit" method="post">
+        <label for="name">Name:<input type="text" name="name"></label>
+        
+        <label for="password">password:<input type="password" name="password"></label>
+        
+        <label for="companyName">company name:<input type="text" name="companyName"></label>
+        
+        <label for="category">Category:<select name="category">
+            <option>electronics</option>
+            <option>home</option>
+            <option>office</option>
+            <option>beauty</option>
+            <option>health</option>
+            <option>toys</option>
+            <option>car</option>
+            <option>car accessory</option>
+            <option>sport</option>
+            <option>fashion</option>
+            <option>food</option>
+        </select></label>
+        
+        <label for="origin">Country of origin:<select name="origin">
+            <option>domestic</option>
+            <option>imported + domestic</option>
+            <option>imported</option>
+        </select></label>
+        
+        <label for="pellet">Are you using recycled pellets?
+            
+            <input type="checkbox" class="check" value="1" name="pellet">
+        </label>
+        
+
+        <label for="recycled">Is the product recycled??
+            <input type="hidden" name="recycled" value="0" />
+            <input type="checkbox" class="check" name="recycled" id="recycled"></label>
+        
+
+        <label for="reused">Is the product made from reused materials??
+            <input type="hidden" name="reused" value="0" />
+            <input type="checkbox" class="check" name="reused" id="reused"></label>
+        
+
+        <label for="renewable">Is the product made w/ renewable energy??
+            <input type="hidden" name="renewable" value="0" />
+            <input type="checkbox" class="check" name="renewable" id="renewable"></label>
+        
+
+        <label for="recyclable">Is the product recyclable??
+            <input type="hidden" name="recyclable" value="0" />
+            <input type="checkbox" class="check" name="recyclable" id="recyclable"></label>
+        
+
+        <label for="hasInsulation">Is the factory donated??
+            <input type="hidden" name="hasInsulation" value="0" />
+            <input type="checkbox" class="check" name="hasInsulation" id="hasInsulation"></label>
+        
+        <label for="co2">How much CO2 do you produce while producing the product?<input type="number" name="co2" id="co2"></label>
+        
+        <label for="ch4">How much CH4 do you produce while making the product?<input type="number" name="ch4" id="ch4"></label>
+        
+        <label for="reuseWaste">How much Waste do you reuse per product?<input type="number" name="reuseWaste" id="reuseWaste"></label>
+        
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        window.onload = () => {
+            document.querySelector("form").addEventListener("submit", async (e) => {
+            e.preventDefault()
+            console.log("helo im running")
+            let form = e.currentTarget;
+            let url = form.action;
+            /*for(let element of document.querySelectorAll(".check:not(:checked)")){
+                element.checked = true;
+                element.value = 0;
+            }*/
+            try{
+                let formData = new FormData(form);
+                for(const data of formData){
+                    console.log(data[1])
+                    if(data[1] === "0"){
+                        formData.delete(data[0])
+                    }
+                }
+                console.log(formData)
+                alert("Sent! result code is: " + await postForm(url,formData))
+            } catch (error){
+                console.error(error)
+            }
+            
+        })
+        }
+        
+        
+        async function postForm(url,form){
+            let formData = Object.fromEntries(form.entries())
+            console.log(formData.toString())
+            let formJson = JSON.stringify(formData);
+            let response; 
+            fetch(url,{
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: formJson
+            }).then((v) => response = v);
+            return response;
+        }</script>
 </body>
 </html>

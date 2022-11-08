@@ -5,6 +5,7 @@ import com.epcard.models.Product
 import com.epcard.models.ProductCategory
 import java.sql.Connection
 import java.sql.DriverManager
+import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
 
@@ -50,42 +51,8 @@ class MySQLConnector {
         val queryText = "SELECT * FROM $tableName WHERE $idName=${index+1}"
         val result = query.executeQuery(queryText)
         result.next()
-        for(i in 0 until index) result.next()
-        val name =  result.getString(nameColName)
-        val pw = result.getString(pwColName)
-        if(pw == "") return null
-        val company = result.getString(companyName)
-        val catEnum = when(result.getInt(catColName)){
-                0 -> ProductCategory.ELECTRONICS
-                1 -> ProductCategory.BEAUTY
-                2 -> ProductCategory.CAR
-                3 -> ProductCategory.CAR_ACCESSORY
-                4 -> ProductCategory.FASHION
-                5 -> ProductCategory.HEALTH
-                6 -> ProductCategory.HOME
-                7 -> ProductCategory.OFFICE
-                8 -> ProductCategory.SPORT
-                9 -> ProductCategory.TOYS
-                10 -> ProductCategory.FOOD
-                else -> throw NoSuchElementException()
-            }
-            val orgEnum = when(result.getInt(originColName)){
-                0 -> OriginType.DOMESTIC
-                1 -> OriginType.IMPORTEDDOMESTIC
-                2 -> OriginType.IMPORTED
-                else -> throw NoSuchElementException()
-            }
-        val pellet  = result.getBoolean(pelletColName)
-        val recycled  =  result.getBoolean(recycledColName)
-        val renewable  = result.getBoolean(renewableColName)
-        val recyclable  =  result.getBoolean(recyclableColName)
-        val reusable  = result.getBoolean(reusableColName)
-        val insulation  =  result.getBoolean(insColName)
-        val co2  =  result.getFloat(coColName)
-        val ch4  =  result.getFloat(chColName)
-        val reWaste  =  result.getInt(reWasteColName)
-        //query.close()
-        return Product(name = name, password = pw, companyName = company,category = catEnum, origin = orgEnum, pellet = pellet, recycled = recycled, renewable = renewable, recyclable = recyclable, hasInsulation = insulation, co2 = co2,ch4 = ch4, reuseWaste = reWaste, reused = reusable)
+        for(i in 1 until index) result.next()
+        return makeProduct(result)
 
     }
 
@@ -114,6 +81,57 @@ class MySQLConnector {
         if(result.warnings != null) result.warnings.message?.let { error(it) }
     }
 
+    fun getAllProducts():ArrayList<Product>{
+        val products:ArrayList<Product> = ArrayList()
+        val query = connection.createStatement()
+        val queryText = "SELECT * FROM $tableName"
+        val result = query.executeQuery(queryText)
+        result.next()
+        while (!result.isLast) {
+            makeProduct(result)?.let { products.add(it) }
+            result.next()
+        }
+        return products
+
+    }
+
+    private fun makeProduct(result:ResultSet):Product?{
+        val name =  result.getString(nameColName)
+        val pw = result.getString(pwColName)
+        if(pw == "") return null
+        val company = result.getString(companyName)
+        val catEnum = when(result.getInt(catColName)){
+            0 -> ProductCategory.ELECTRONICS
+            1 -> ProductCategory.BEAUTY
+            2 -> ProductCategory.CAR
+            3 -> ProductCategory.CAR_ACCESSORY
+            4 -> ProductCategory.FASHION
+            5 -> ProductCategory.HEALTH
+            6 -> ProductCategory.HOME
+            7 -> ProductCategory.OFFICE
+            8 -> ProductCategory.SPORT
+            9 -> ProductCategory.TOYS
+            10 -> ProductCategory.FOOD
+            else -> throw NoSuchElementException()
+        }
+        val orgEnum = when(result.getInt(originColName)){
+            0 -> OriginType.DOMESTIC
+            1 -> OriginType.IMPORTEDDOMESTIC
+            2 -> OriginType.IMPORTED
+            else -> throw NoSuchElementException()
+        }
+        val pellet  = result.getBoolean(pelletColName)
+        val recycled  =  result.getBoolean(recycledColName)
+        val renewable  = result.getBoolean(renewableColName)
+        val recyclable  =  result.getBoolean(recyclableColName)
+        val reusable  = result.getBoolean(reusableColName)
+        val insulation  =  result.getBoolean(insColName)
+        val co2  =  result.getFloat(coColName)
+        val ch4  =  result.getFloat(chColName)
+        val reWaste  =  result.getInt(reWasteColName)
+        //query.close()
+        return Product(name = name, password = pw, companyName = company,category = catEnum, origin = orgEnum, pellet = pellet, recycled = recycled, renewable = renewable, recyclable = recyclable, hasInsulation = insulation, co2 = co2,ch4 = ch4, reuseWaste = reWaste, reused = reusable)
+    }
     private fun checkSqlInject(input:String):Boolean{
         return input.matches(Regex("\\d+\\s?(or|OR)\\s?(.=.)+|\"\\s*(or|OR)\\s*\"\"=\"|;+\\s*\\w+"))
     }

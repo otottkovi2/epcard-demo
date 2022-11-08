@@ -54,14 +54,14 @@ fun Application.configureRouting() {
         }
 
         post("/api/submit"){
-            /*try{
+            try{
                 val product = call.receive<Product>()
                 controller.addProduct(product)
             } catch(e:Exception){
                 call.respondText("The submitted data is not complete",status = HttpStatusCode.NotAcceptable)
                 error("product could not be submitted: " + e.localizedMessage)
-            }*/
-            controller.addProduct(Product("tej","fak","company",ProductCategory.FOOD,OriginType.IMPORTED,
+            }
+            /*controller.addProduct(Product("tej","fak","company",ProductCategory.FOOD,OriginType.IMPORTED,
                 pellet = true,
                 recycled = true,
                 reused = true,
@@ -71,13 +71,18 @@ fun Application.configureRouting() {
                 co2 = 2f,
                 ch4 = 4f,
                 reuseWaste = 0
-            ))
+            ))*/
             call.respond(HttpStatusCode.Created)
 
         }
         // Static plugin. Try to access `/static/index.html`
-        static("/static") {
+        /*static("/static") {
             resources("static")
+        }*/
+        singlePageApplication {
+            useResources = true
+            filesPath = "static"
+            defaultPage = "index.html"
         }
     }
 }

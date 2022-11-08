@@ -6,7 +6,7 @@ GET localhost:8080/api/read
 Content-Type: application/json
 ###
 
-GET localhost:8080/api/read/15
+GET localhost:8080/api/read/1
 Content-Type: application/json
 ###
 
@@ -15,6 +15,7 @@ Accept: application/json
 
 {
        "name":"sajt",
+       "password":"pw",
        "companyName":"ZOP Games"
        "category":"0",
        "origin":0,

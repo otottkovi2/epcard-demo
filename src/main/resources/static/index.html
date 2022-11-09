@@ -18,6 +18,9 @@
         form *{
             width: 50%;
         }
+        form legend{
+            width: auto;
+        }
     </style>
 </head>
 <body>
@@ -50,42 +53,89 @@
             <option>imported + domestic</option>
             <option>imported</option>
         </select></label>
-        
-        <label for="pellet">Are you using recycled pellets?
-            
-            <input type="checkbox" class="check" value="1" name="pellet">
-        </label>
-        
-
-        <label for="recycled">Is the product recycled??
-            <input type="hidden" name="recycled" value="0" />
-            <input type="checkbox" class="check" name="recycled" id="recycled"></label>
-        
-
-        <label for="reused">Is the product made from reused materials??
-            <input type="hidden" name="reused" value="0" />
-            <input type="checkbox" class="check" name="reused" id="reused"></label>
-        
-
-        <label for="renewable">Is the product made w/ renewable energy??
-            <input type="hidden" name="renewable" value="0" />
-            <input type="checkbox" class="check" name="renewable" id="renewable"></label>
-        
-
-        <label for="recyclable">Is the product recyclable??
-            <input type="hidden" name="recyclable" value="0" />
-            <input type="checkbox" class="check" name="recyclable" id="recyclable"></label>
-        
-
-        <label for="hasInsulation">Is the factory donated??
-            <input type="hidden" name="hasInsulation" value="0" />
-            <input type="checkbox" class="check" name="hasInsulation" id="hasInsulation"></label>
+        <fieldset>
+            <legend>Are you using recycled pellets?</legend>
+            <label for="pellet">
+                <input type="radio" value="true" name="pellet" id="pellet">
+                Yes
+            </label>
+            <label for="pellet_no"><input type="radio" value="false" name="pellet" id="pellet_no">
+                No
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Is the product recycled??</legend>
+            <label for="recycled">
+                <input type="radio" value="true" name="recycled" id="recycled">
+                Yes
+            </label>
+            <label for="recycled_no">
+                <input type="radio" value="false" name="recycled" id="recycled_no">
+                No
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Is the product made from reused materials??</legend>
+            <label for="reused">
+                <input type="radio" value="true" name="reused" id="reused">
+                Yes
+            </label>
+            <label for="reused_no">
+                <input type="radio" value="false" name="reused" id="reused_no">
+                No
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Is the product made w/ renewable energy??</legend>
+            <label for="renewable">
+                <input type="radio" value="true" name="renewable" id="renewable">
+                Yes
+            </label>
+            <label for="renewable_no">
+                <input type="radio" value="false" name="renewable" id="renewable_no">
+                No
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Is the product recyclable??</legend>
+            <label for="recyclable">
+                <input type="radio" value="true" name="recyclable" id="recyclable">
+                Yes
+            </label>
+            <label for="recyclable_no">
+                <input type="radio" value="false" name="recyclable" id="recyclable_no">
+                No
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Is the factory insulated?</legend>
+            <label for="hasInsulation">
+                <input type="radio" value="true" name="hasInsulation" id="hasInsulation">
+                Yes
+            </label>
+            <label for="hasInsulation_no">
+                <input type="radio" value="false" name="hasInsulation" id="hasInsulation_no">
+                No
+            </label>
+        </fieldset>
+        <fieldset>
+            <legend>Is the product bio?</legend>
+            <label for="bio">
+                <input type="radio" value="true" name="bio" id="bio">
+                Yes
+            </label>
+            <label for="bio_no">
+                <input type="radio" value="false" name="bio" id="bio_no">
+                No
+            </label>
+        </fieldset>
         
         <label for="co2">How much CO2 do you produce while producing the product?<input type="number" name="co2" id="co2"></label>
         
         <label for="ch4">How much CH4 do you produce while making the product?<input type="number" name="ch4" id="ch4"></label>
         
         <label for="reuseWaste">How much Waste do you reuse per product?<input type="number" name="reuseWaste" id="reuseWaste"></label>
+        
         
         <button type="submit">Submit</button>
     </form>
@@ -96,23 +146,9 @@
             console.log("helo im running")
             let form = e.currentTarget;
             let url = form.action;
-            /*for(let element of document.querySelectorAll(".check:not(:checked)")){
-                element.checked = true;
-                element.value = 0;
-            }*/
-            try{
-                let formData = new FormData(form);
-                for(const data of formData){
-                    console.log(data[1])
-                    if(data[1] === "0"){
-                        formData.delete(data[0])
-                    }
-                }
-                console.log(formData)
-                alert("Sent! result code is: " + await postForm(url,formData))
-            } catch (error){
-                console.error(error)
-            }
+            let formData = new FormData(form);
+            alert("Sent! result code is: " + await postForm(url,formData))
+            
             
         })
         }

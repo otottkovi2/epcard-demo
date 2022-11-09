@@ -3,12 +3,12 @@ package com.epcard.models
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Product(val name: String,val password:String,val companyName:String,val category:ProductCategory,val origin:OriginType,val pellet:Boolean,val recycled:Boolean,val reused:Boolean,
-                   val renewable:Boolean,val recyclable:Boolean, val hasInsulation:Boolean,val co2:Float,val ch4:Float,val reuseWaste:Int) {
+data class Product(val name: String, val password:String, val companyName:String, val category: String, val origin:String, val pellet:Boolean, val recycled:Boolean, val reused:Boolean,
+                   val renewable:Boolean, val recyclable:Boolean, val hasInsulation:Boolean, val co2:Float, val ch4:Float, val reuseWaste:Int,val bio:Boolean) {
     var discount:Float = calcRating()
 
     private fun calcRating():Float{
-        var sum = -(origin.ordinal)+co2+ch4+reuseWaste
+        var sum = -(origin.length)+co2+ch4+reuseWaste
         if(pellet) sum++
         if(recycled) sum++
         if(reused) sum++

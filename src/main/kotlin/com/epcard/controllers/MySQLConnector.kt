@@ -2,7 +2,6 @@ package com.epcard.controllers
 
 import com.epcard.models.OriginType
 import com.epcard.models.Product
-import com.epcard.models.ProductCategory
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
@@ -29,6 +28,7 @@ class MySQLConnector {
     private val coColName:String = "co2"
     private val chColName:String = "ch4"
     private val reWasteColName:String = "recycled_garbage"
+    private val bioColName:String = "bio"
     private val connection:Connection = connect()
     /*init{
         try{
@@ -67,17 +67,18 @@ class MySQLConnector {
         return len
     }
     fun addItem(product: Product){
-        product.apply {
+        /*product.apply {
             if(checkSqlInject(name) || checkSqlInject(password) || checkSqlInject(companyName)) {
                 error("Someone tried tried SQL injection! KEKW")
             }
-        }
+        }*/
         val query:Statement = connection.createStatement()
         val queryText:String = "INSERT INTO $tableName (`$nameColName`,`$pwColName`,`$companyName`,`$catColName`,`$originColName`,`$pelletColName`,`$recycledColName`,`$renewableColName`," +
-                "`$recyclableColName`,`$reusableColName`,`$insColName`,`$coColName`,`$chColName`,`$reWasteColName`) VALUES ('${product.name}','${product.password}','${product.companyName}',${product.category.ordinal}," +
-                "${product.origin.ordinal},${product.pellet},${product.recycled},${product.renewable},${product.recyclable},${product.reused}," +
-                "${product.hasInsulation},${product.co2},${product.ch4},${product.reuseWaste})"
+                "`$recyclableColName`,`$reusableColName`,`$insColName`,`$coColName`,`$chColName`,`$reWasteColName`,`$bioColName`) VALUES ('${product.name}','${product.password}','${product.companyName}','${product.category}'," +
+                "'${product.origin}',${product.pellet},${product.recycled},${product.renewable},${product.recyclable},${product.reused}," +
+                "${product.hasInsulation},${product.co2},${product.ch4},${product.reuseWaste},${product.bio})"
         val result = query.executeQuery(queryText)
+        result.next()
         if(result.warnings != null) result.warnings.message?.let { error(it) }
     }
 
@@ -100,26 +101,8 @@ class MySQLConnector {
         val pw = result.getString(pwColName)
         if(pw == "") return null
         val company = result.getString(companyName)
-        val catEnum = when(result.getInt(catColName)){
-            0 -> ProductCategory.ELECTRONICS
-            1 -> ProductCategory.BEAUTY
-            2 -> ProductCategory.CAR
-            3 -> ProductCategory.CAR_ACCESSORY
-            4 -> ProductCategory.FASHION
-            5 -> ProductCategory.HEALTH
-            6 -> ProductCategory.HOME
-            7 -> ProductCategory.OFFICE
-            8 -> ProductCategory.SPORT
-            9 -> ProductCategory.TOYS
-            10 -> ProductCategory.FOOD
-            else -> throw NoSuchElementException()
-        }
-        val orgEnum = when(result.getInt(originColName)){
-            0 -> OriginType.DOMESTIC
-            1 -> OriginType.IMPORTEDDOMESTIC
-            2 -> OriginType.IMPORTED
-            else -> throw NoSuchElementException()
-        }
+        val category = result.getString(catColName)
+        val origin = result.getString(originColName)
         val pellet  = result.getBoolean(pelletColName)
         val recycled  =  result.getBoolean(recycledColName)
         val renewable  = result.getBoolean(renewableColName)
@@ -129,8 +112,9 @@ class MySQLConnector {
         val co2  =  result.getFloat(coColName)
         val ch4  =  result.getFloat(chColName)
         val reWaste  =  result.getInt(reWasteColName)
+        val bio = result.getBoolean(bioColName)
         //query.close()
-        return Product(name = name, password = pw, companyName = company,category = catEnum, origin = orgEnum, pellet = pellet, recycled = recycled, renewable = renewable, recyclable = recyclable, hasInsulation = insulation, co2 = co2,ch4 = ch4, reuseWaste = reWaste, reused = reusable)
+        return Product(name = name, password = pw, companyName = company,category = category, origin = origin, pellet = pellet, recycled = recycled, renewable = renewable, recyclable = recyclable, hasInsulation = insulation, co2 = co2,ch4 = ch4, reuseWaste = reWaste, reused = reusable,bio = bio)
     }
     private fun checkSqlInject(input:String):Boolean{
         return input.matches(Regex("\\d+\\s?(or|OR)\\s?(.=.)+|\"\\s*(or|OR)\\s*\"\"=\"|;+\\s*\\w+"))

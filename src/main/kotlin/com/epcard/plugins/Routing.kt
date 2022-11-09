@@ -31,34 +31,34 @@ fun Application.configureRouting() {
             call.respondText("poggers it works!")
         }
 
-        get("/api/read"){
+        get("/api/read") {
             controller.fillList()
             call.respond(controller.products)
         }
 
-        get("/api/read/{id}"){
+        get("/api/read/{id}") {
             val i = parseInt(call.parameters["id"])
 
-            try{
+            try {
                 val product = controller.getProduct(i)
                 call.respond(product)
-            } catch (e:NotFoundException){
-                call.respondText("The requested resource was not found",status = HttpStatusCode.NotFound)
+            } catch (e: NotFoundException) {
+                call.respondText("The requested resource was not found", status = HttpStatusCode.NotFound)
             }
 
 
         }
 
-        get("/api/submit"){
+        get("/api/submit") {
             call.respond(HttpStatusCode.BadRequest)
         }
 
-        post("/api/submit"){
-            try{
+        post("/api/submit") {
+            try {
                 val product = call.receive<Product>()
                 controller.addProduct(product)
-            } catch(e:Exception){
-                call.respondText("The submitted data is not complete",status = HttpStatusCode.NotAcceptable)
+            } catch (e: Exception) {
+                call.respondText("The submitted data is not complete", status = HttpStatusCode.NotAcceptable)
                 error("product could not be submitted: " + e.localizedMessage)
             }
             /*controller.addProduct(Product("tej","fak","company",ProductCategory.FOOD,OriginType.IMPORTED,

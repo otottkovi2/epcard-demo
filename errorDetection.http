@@ -17,8 +17,8 @@ Accept: application/json
        "name":"sajt",
        "password":"pw",
        "companyName":"ZOP Games"
-       "category":"0",
-       "origin":0,
+       "category":"food",
+       "origin":"domestic",
        "pellet":true,
        "recycled":true,
        "reused":true,

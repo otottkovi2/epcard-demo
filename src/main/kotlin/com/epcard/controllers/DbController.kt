@@ -4,21 +4,21 @@ import com.epcard.models.Product
 import io.ktor.server.plugins.*
 
 class DbController {
-    private val db:MySQLConnector = MySQLConnector()
-    lateinit var products:ArrayList<Product>
+    private val db: MySQLConnector = MySQLConnector()
+    lateinit var products: ArrayList<Product>
 
     init {
         fillList()
     }
 
-    fun fillList(){
+    fun fillList() {
         products = db.getAllProducts()
     }
 
-    fun addProduct(product: Product){
-        try{
+    fun addProduct(product: Product) {
+        try {
             db.addItem(product)
-        } catch (e:Exception){
+        } catch (e: Exception) {
             println("submitting product failed! " + e.message)
         }
         fillList()

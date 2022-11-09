@@ -1,31 +1,16 @@
 GET localhost:8080/
-Content-Type: application/json
+Accept: application/json
 ###
 
 GET localhost:8080/api/read
-Content-Type: application/json
+Accept: application/json
 ###
 
-GET localhost:8080/api/read/1
-Content-Type: application/json
+GET localhost:8080/api/read/11
+Accept: application/json
 ###
 
 POST localhost:8080/api/submit
-Accept: application/json
+Content-Type: application/json
 
-{
-       "name":"sajt",
-       "password":"pw",
-       "companyName":"ZOP Games"
-       "category":"food",
-       "origin":"domestic",
-       "pellet":true,
-       "recycled":true,
-       "reused":true,
-       "renewable":true,
-       "recyclable":true,
-       "hasInsulation":true,
-       "co2":2,
-       "ch4":23,
-       "reauseWaste":1
-}
+{"name":"tomi","password":"Lq4XX5Zp52Cm2dE","companyName":"ZOP Games","category":"electronics","origin":"domestic","pellet":"true","recycled":"false","reused":"true","renewable":"true","recyclable":"true","hasInsulation":"true","bio":"true","co2":"21","ch4":"43","reuseWaste":"32","weight": "43"}

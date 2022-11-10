@@ -1,10 +1,10 @@
 package com.epcard.models
 
-import com.epcard.controllers.DbController
+import com.epcard.controllers.ControllerFactory.Factory
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Product( val id:Int,
+data class Product(
     val name: String, val password:String, val companyName:String, val category: String, val origin:String, val pellet:Boolean, val recycled:Boolean, val reused:Boolean,
     val renewable:Boolean, val recyclable:Boolean, val hasInsulation:Boolean, val co2: Int, val ch4: Int, val reuseWaste:Int,
     val bio:Boolean, val weight:Int) {
@@ -15,12 +15,18 @@ data class Product( val id:Int,
         in 24..36 -> ProductRating.BLUE
         in 12..24 -> ProductRating.YELLOW
         else -> ProductRating.RED
-    }.also {
-        DbController.instance.updateRating(id,it)
-        DbController.instance.updateScore(id,score)
     }
     val reuseWeight:Float = if (weight != 0)(reuseWaste/ weight).toFloat() else 0f
 
+    fun updateRatingScore(){
+        try {
+
+            Factory.controller.updateRating(name, rating)
+            Factory.controller.updateScore(name, score)
+        } catch (e: Exception) {
+            e.message?.let { error(it) }
+        }
+    }
     private fun calcScore():Int{
         var sum = 0
         if(bio) sum += 5

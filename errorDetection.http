@@ -6,11 +6,25 @@ GET localhost:8080/api/read
 Accept: application/json
 ###
 
-GET localhost:8080/api/read/11
+GET localhost:8080/api/read/5
 Accept: application/json
 ###
 
 POST localhost:8080/api/submit
 Content-Type: application/json
 
-{"name":"tomi","password":"Lq4XX5Zp52Cm2dE","companyName":"ZOP Games","category":"electronics","origin":"domestic","pellet":"true","recycled":"false","reused":"true","renewable":"true","recyclable":"true","hasInsulation":"true","bio":"true","co2":"21","ch4":"43","reuseWaste":"32","weight": "43"}
+{"name":"valaki","password":"Lq4XX5Zp52Cm2dE","companyName":"ZOP Games","category":"electronics","origin":"domestic","pellet":"true","recycled":"false","reused":"true","renewable":"true","recyclable":"true","hasInsulation":"true","bio":"true","co2":"21","ch4":"43","reuseWaste":"32","weight": "43"}
+
+###
+
+POST localhost:8080/api/submit
+Content-Type: application/json
+
+{"name":"másvalaki","password":"Lq4XX5Zp52Cm2dE","companyName":"ZOP Games","category":"electronics","origin":"Hungary","pellet":"true","recycled":"true","reused":"true","renewable":"true","recyclable":"true","hasInsulation":"true","bio":"true","co2":"21","ch4":"43","reuseWaste":"32","weight": "43"}
+
+###
+
+POST localhost:8080/api/submit
+Content-Type: application/json
+
+{"name":"senki","password":"Lq4XX5Zp52Cm2dE","companyName":"ZOP Games","category":"electronics","origin":"domestic","pellet":"false","recycled":"false","reused":"false","renewable":"false","recyclable":"true","hasInsulation":"true","bio":"true","co2":"21","ch4":"50","reuseWaste":"32","weight": "43"}

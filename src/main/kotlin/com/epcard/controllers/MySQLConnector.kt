@@ -9,10 +9,10 @@ import java.sql.SQLException
 import java.sql.Statement
 
 class MySQLConnector {
-    private val dbName:String = "84.21.182.8"
+    private val dbName:String = "epcard.ddns.net"
     private val user:String = "tomi"
     private val pw:String = "Maszat19"
-    private val tableName:String = "industrys"
+    private val tableName:String = "companys"
     private val idName:String = "id"
     private val nameColName:String = "name"
     private val pwColName:String = "password"
@@ -32,11 +32,7 @@ class MySQLConnector {
     private val weightColName:String = "weight"
     private val connection:Connection = connect()
 
-    init {
-        DbController.instance = DbController()
-    }
-
-    private fun connect():Connection{
+    fun connect():Connection{
         try{
             return DriverManager.getConnection("jdbc:mariadb://$dbName:3306/epcardtest?user=$user&password=$pw")
         } catch (e:SQLException){
@@ -50,7 +46,17 @@ class MySQLConnector {
         val queryText = "SELECT * FROM $tableName WHERE $idName=${index}"
         val result = query.executeQuery(queryText)
         result.next()
-        return makeProduct(result)
+        if(!result.isAfterLast) return makeProduct(result)
+        return null
+
+    }
+    fun getProduct(name: String):Product?{
+        val query = connection.createStatement()
+        val queryText = "SELECT * FROM $tableName WHERE `$nameColName`='${name}'"
+        val result = query.executeQuery(queryText)
+        result.next()
+        if(!result.isAfterLast) return makeProduct(result)
+        return null
 
     }
 
@@ -78,6 +84,7 @@ class MySQLConnector {
         val result = query.executeQuery(queryText)
         result.next()
         if(result.warnings != null) result.warnings.message?.let { error(it) }
+        product.updateRatingScore()
     }
 
     fun getAllProducts():ArrayList<Product>{
@@ -85,44 +92,43 @@ class MySQLConnector {
         val query = connection.createStatement()
         val queryText = "SELECT * FROM $tableName"
         val result = query.executeQuery(queryText)
+        if(result.isLast) throw SQLException("The products table is empty.")
         result.next()
         while (!result.isLast) {
-            makeProduct(result)?.let { products.add(it) }
+            products.add(makeProduct(result))
             result.next()
         }
         return products
 
     }
 
-    fun updateProduct(index: Int,field:String,value:String){
-        val query:PreparedStatement = connection.prepareStatement("UPDATE $tableName SET ? = ? WHERE $idName=$index")
-        query.setString(0,field)
-        query.setString(1,value)
+    fun updateProduct(name: String, field:String, value:String){
+        val query:PreparedStatement = connection.prepareStatement("UPDATE $tableName SET `$field` $nameColName=$name")
+        //query.setString(1,field)
+        query.setString(2,value)
         query.execute()
         query.close()
     }
 
-    fun updateProduct(index: Int,field: String,value: Int){
-        val query:PreparedStatement = connection.prepareStatement("UPDATE $tableName SET ? = ? WHERE $idName=$index")
-        query.setString(0,field)
+    fun updateProduct(name: String, field: String, value: Int){
+        val query:PreparedStatement = connection.prepareStatement("UPDATE $tableName SET `$field` = ? WHERE `$nameColName` = '$name'")
+        //query.setString(1,field)
         query.setInt(1,value)
         query.execute()
         query.close()
     }
 
-    fun updateProduct(index: Int,field: String,value: Float){
-        val query:PreparedStatement = connection.prepareStatement("UPDATE $tableName SET ? = ? WHERE $idName=$index")
-        query.setString(0,field)
+    fun updateProduct(name: String, field: String, value: Float){
+        val query:PreparedStatement = connection.prepareStatement("UPDATE $tableName SET `$field` = ? WHERE $idName=$name")
+        //query.setString(0,field)
         query.setFloat(1,value)
         query.execute()
         query.close()
     }
 
-    private fun makeProduct(result:ResultSet):Product?{
-        val id = result.getInt(idName)
+    private fun makeProduct(result:ResultSet):Product{
         val name =  result.getString(nameColName)
         val pw = result.getString(pwColName)
-        if(pw == "") return null
         val company = result.getString(companyName)
         val category = result.getString(catColName)
         val origin = result.getString(originColName)
@@ -139,7 +145,7 @@ class MySQLConnector {
         val weight = result.getInt(weightColName)
         //query.close()
         return Product(
-            id = id,name = name, password = pw, companyName = company,
+            name = name, password = pw, companyName = company,
             category = category, origin = origin, pellet = pellet, recycled = recycled, renewable = renewable, recyclable = recyclable, hasInsulation = insulation, co2 = co2,
             ch4 = ch4, reuseWaste = reWaste, reused = reusable,
             bio = bio, weight = weight)

@@ -1,6 +1,8 @@
 package com.epcard.plugins
 
 import com.epcard.controllers.ControllerFactory
+import com.epcard.controllers.ControllerFactory.Factory.controller
+import com.epcard.controllers.DbController
 import com.epcard.models.OriginType
 import com.epcard.models.Product
 import com.epcard.models.ProductCategory
@@ -16,6 +18,8 @@ import java.lang.Integer.parseInt
 
 fun Application.configureRouting() {
 
+
+    val controller:DbController = ControllerFactory.controller
     install(StatusPages) {
         exception<AuthenticationException> { call, cause ->
             call.respond(HttpStatusCode.Unauthorized)
@@ -25,14 +29,13 @@ fun Application.configureRouting() {
         }
 
     }
-    val controller = ControllerFactory().controller
     routing {
         get("/") {
             call.respondText("poggers it works!")
         }
 
         get("/api/read") {
-            controller.fillList()
+            //controller.fillList()
             call.respond(controller.products)
         }
 
@@ -41,9 +44,12 @@ fun Application.configureRouting() {
 
             try {
                 val product = controller.getProduct(i)
-                call.respond(product)
+                if(product != null)call.respond(product)
+                call.respond(HttpStatusCode.NotFound)
             } catch (e: NotFoundException) {
                 call.respondText("The requested resource was not found", status = HttpStatusCode.NotFound)
+            } catch (e:Exception){
+                e.message?.let { error(it) }
             }
 
 
@@ -81,7 +87,7 @@ fun Application.configureRouting() {
         }*/
         singlePageApplication {
             useResources = true
-            filesPath = "static"
+            filesPath = "static/eps-web.EPS"
             defaultPage = "index.html"
         }
     }

@@ -1,173 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="wnameth=device-wnameth, initial-scale=1.0">
-    <title>EPS test form</title>
-    <style>
-        body *{
-            margin: 1em;
-        }
-        form{
-            display: flex;
-            flex-direction: column;
-            width: 100vw;
-            align-items: center;
-        }
-        form *{
-            width: 50%;
-        }
-        form legend{
-            width: auto;
-        }
-    </style>
-</head>
-<body>
-    <h1>EPS test form - for technical testing</h1>
-    <label for="debug_target">IP of host:<input name="debug_target"></label>
-
-    <form action="http://127.0.0.1:8080/api/submit" method="post">
-        <label for="name">Name:<input type="text" name="name"></label>
-        
-        <label for="password">password:<input type="password" name="password"></label>
-        
-        <label for="companyName">company name:<input type="text" name="companyName"></label>
-        
-        <label for="category">Category:<select name="category">
-            <option>electronics</option>
-            <option>home</option>
-            <option>office</option>
-            <option>beauty</option>
-            <option>health</option>
-            <option>toys</option>
-            <option>car</option>
-            <option>car accessory</option>
-            <option>sport</option>
-            <option>fashion</option>
-            <option>food</option>
-        </select></label>
-        
-        <label for="origin">Country of origin:<select name="origin">
-            <option>domestic</option>
-            <option>imported + domestic</option>
-            <option>imported</option>
-        </select></label>
-        <fieldset>
-            <legend>Are you using recycled pellets?</legend>
-            <label for="pellet">
-                <input type="radio" value="true" name="pellet" id="pellet">
-                Yes
-            </label>
-            <label for="pellet_no"><input type="radio" value="false" name="pellet" id="pellet_no">
-                No
-            </label>
-        </fieldset>
-        <fieldset>
-            <legend>Is the product recycled??</legend>
-            <label for="recycled">
-                <input type="radio" value="true" name="recycled" id="recycled">
-                Yes
-            </label>
-            <label for="recycled_no">
-                <input type="radio" value="false" name="recycled" id="recycled_no">
-                No
-            </label>
-        </fieldset>
-        <fieldset>
-            <legend>Is the product made from reused materials??</legend>
-            <label for="reused">
-                <input type="radio" value="true" name="reused" id="reused">
-                Yes
-            </label>
-            <label for="reused_no">
-                <input type="radio" value="false" name="reused" id="reused_no">
-                No
-            </label>
-        </fieldset>
-        <fieldset>
-            <legend>Is the product made w/ renewable energy??</legend>
-            <label for="renewable">
-                <input type="radio" value="true" name="renewable" id="renewable">
-                Yes
-            </label>
-            <label for="renewable_no">
-                <input type="radio" value="false" name="renewable" id="renewable_no">
-                No
-            </label>
-        </fieldset>
-        <fieldset>
-            <legend>Is the product recyclable??</legend>
-            <label for="recyclable">
-                <input type="radio" value="true" name="recyclable" id="recyclable">
-                Yes
-            </label>
-            <label for="recyclable_no">
-                <input type="radio" value="false" name="recyclable" id="recyclable_no">
-                No
-            </label>
-        </fieldset>
-        <fieldset>
-            <legend>Is the factory insulated?</legend>
-            <label for="hasInsulation">
-                <input type="radio" value="true" name="hasInsulation" id="hasInsulation">
-                Yes
-            </label>
-            <label for="hasInsulation_no">
-                <input type="radio" value="false" name="hasInsulation" id="hasInsulation_no">
-                No
-            </label>
-        </fieldset>
-        <fieldset>
-            <legend>Is the product bio?</legend>
-            <label for="bio">
-                <input type="radio" value="true" name="bio" id="bio">
-                Yes
-            </label>
-            <label for="bio_no">
-                <input type="radio" value="false" name="bio" id="bio_no">
-                No
-            </label>
-        </fieldset>
-        
-        <label for="co2">How much CO2 do you produce while producing the product?<input type="number" name="co2" id="co2"></label>
-        
-        <label for="ch4">How much CH4 do you produce while making the product?<input type="number" name="ch4" id="ch4"></label>
-        
-        <label for="reuseWaste">How much Waste do you reuse per product?<input type="number" name="reuseWaste" id="reuseWaste"></label>
-        
-        
-        <button type="submit">Submit</button>
-    </form>
-    <script>
-        window.onload = () => {
-            document.querySelector("form").addEventListener("submit", async (e) => {
-            e.preventDefault()
-            console.log("helo im running")
-            let form = e.currentTarget;
-            let url = form.action;
-            let formData = new FormData(form);
-            alert("Sent! result code is: " + await postForm(url,formData))
-            
-            
-        })
-        }
-        
-        
-        async function postForm(url,form){
-            let formData = Object.fromEntries(form.entries())
-            console.log(formData.toString())
-            let formJson = JSON.stringify(formData);
-            let response; 
-            fetch(url,{
-                method: "POST",
-                headers:{
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                },
-                body: formJson
-            }).then((v) => response = v);
-            return response;
-        }</script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@200;300&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/2cb600739a.js" crossorigin="anonymous"></script>
+        <title>EPS - Environmental Protection System</title>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <div class="logo"><img src="img/logo_white.png" alt="LOGO"></div>
+                <div class="szlogen">&bdquo;Future results, present rewards&rdquo;</div>
+                <div class="search-bar">
+                    <input type="search">
+                    <input type="submit" value="Keresés">
+                </div>
+                <!-- <div class="lang">
+                    <form action="" class="language-picker__form">
+                        <select name="language-picker-select" id="language-picker-select">
+                          <option lang="de" value="deutsch">Deutsch</option>
+                          <option lang="en" value="english">English</option>
+                          <option lang="fr" value="francais">Français</option>
+                          <option lang="it" value="italiano">Italiano</option>
+                          <option lang="hu" value="hungarian" selected>Magyar</option>
+                        </select>
+                      </form>
+                </div> -->
+            </header>
+            <nav>
+                <ul>
+                    <li><a href="#bemutatkozas">Bemutatkozás</a></li>
+                    <li><a href="#mukodese">Működése</a></li>
+                    <li><a href="#besorolasok">Besorolások</a></li>
+                    <li><a href="">Statisztika</a></li>
+                    <li><a href="">Támogatás</a></li>
+                </ul>
+            </nav>
+            <section id="bemutatkozas">
+                <h1>Bemutatkozás</h1>
+                <div class="bemutatkozas-container">
+                    <div class="bemutatkozas-item">
+                        <img src="img/csapat.jpg">
+                    </div>
+                    <div class="bemutatkozas-item szoveg">
+                        Sziasztok! Mi a GreenDevils csapat vagyunk a Szegedi SZC Vasvári Pál Gazdasági és Informatikai Technikum-ból és egy környezetvédelmi innovációs versenyen azt a feladatot kaptuk, hogy találjunk megoldást a tudatos termelésre és fogyasztásra. Rendszerünk erre a problémára nyújt megoldást.<br>
+                        <b>Eredmény a jövőben, jutalom a jelenben!</b><br>
+                        <a href="#" class="gomb">Megtekintem a bemutató videót!</a>
+                    </div>
+                </div>
+                <!-- <h2>Bemutatkozó videónk</h2>
+                <div class="bemutatkozas-container">
+                    <div class="bemutatkozas-item">
+                        <video src="video/video.mp4"></video>
+                    </div>
+                </div> -->
+                <div class="arrow-container">
+                    <!-- <div class="arrow up">
+                        <i class="fa-sharp fa-solid fa-arrow-up"></i>
+                    </div> -->
+                    <!-- <div class="arrow down">
+                        <a href="#mukodese">
+                            <i class="fa-sharp fa-solid fa-arrow-down"></i>
+                        </a>
+                    </div> -->
+                </div>
+            </section>
+            <section id="mukodese">
+                <h1>Működése</h1>
+                <div class="flex-container">
+                    <div class="flex-item">
+                        <span>1. Adatgyűjtés</span>
+                        <img src="img/EPS adatgyűjtés.png">
+                    </div>
+                    <div class="flex-item">
+                        <span>2. Adatkezelés</span>
+                        <img src="img/EPS adatkezelés.png">
+                    </div>
+                    <div class="flex-item">
+                        <span>3. Statisztika</span>
+                        <img src="img/EPS statisztika.png">
+                    </div>
+                </div>
+                <div class="bekezdes">
+                    Az EPS egy olyan Nemzetközi Informatikai Rendszer lenne, amely motiválná az embereket a környezetbarát termékek termelésben és fogyasztásban. A program három dolgot végez. A környezetvédelmi megoldásokhoz <b>adatot gyűjt</b>, <b>kezel</b> és <b>statisztikai eredményeket szolgáltat</b> az állami szervek, gazdasági-és környezetvédő szervezetek számára.
+                </div>
+            </section>
+            <section id="besorolasok">
+                <h1>Besorolások</h1>
+                <div class="card-container">
+                    <div class="card">
+                        <img src="img/labels/1.png" alt=""id="label1" onclick="selectLabel1();">
+                        <!-- <div class="desc">
+                            A termék teljes mértékben bio termék vagy a termék részben bio termék. A csomagolás mentesen, gyorsan lebomló vagy újrahasznosítható csomagolásban vehető.
+                        </div> -->
+                    </div>
+                    <div class="card">
+                        <img src="img/labels/2.png" alt="" id="label2" onclick="selectLabel2();">
+                        <!-- <div class="desc">
+                            Rövid idő alatt lebomló, nem számottevő vagy közepes környezet terheléssel bíró termék. Visszaváltható , nem számottevően környezet terhelő vagy közepes idő alatt lebomló csomagolás.
+                        </div> -->
+                    </div>
+                    <div class="card">
+                        <img src="img/labels/3.png" alt="" id="label3" onclick="selectLabel3();">
+                        <!-- <div class="desc">
+                            Környezet terhelő, közép távoú idő alatt lebomló és kis mértékben egészségre ártalmas termék vagy csomagolás.
+                        </div> -->
+                    </div>
+                    <div class="card">
+                        <img src="img/labels/4.png" alt="" id="label4" onclick="selectLabel4();">
+                        <!-- <div class="desc">
+                            Környezet terhelő, hoszabb távon lebomló és egészségre nagyobb mértékben ártalmas termék vagy csomagolás.
+                        </div> -->
+                    </div>
+                    <div class="card">
+                        <img src="img/labels/5.png" alt="" id="label5" onclick="selectLabel5();">
+                        <!-- <div class="desc">
+                            Magas környezet terheléssel bíró, bomlási időtől függetlenül ártalmas az egészségre és a környezetre a csomagolás vagy a termék.
+                        </div> -->
+                    </div>
+                </div>
+                <div class="description" id="desc">
+                    
+                </div>
+                <h2>A fogyasztó motiválása</h2>
+                <div class="merleg-container">
+                    <div class="merleg-item"><img src="img/EPS mérleg lan.png"></div>
+                    <div class="merleg-item" id="merleg-item-desc">
+                        <b>Célunk</b> ezzel a rendszerrel, hogy <b>versenyképes</b>sé tegyük a <b>környezetbarát termékek</b>et és szolgáltatásokat a nem környezetbarátokkal szemben és motiváljuk a termelőket abban, hogy környezet barát módon állítsák elő a termékeit.<br><br>
+                        <b>Az EPS kártya kedvezményt biztosít a zöld termékre, ami ezáltal azonos árba kerül a NEM környezetbaráttal.</b>
+                        <img src="img/EPS_Card_e.png" alt="">
+                    </div>
+                    <div class="merleg-item"><img src="img/EPS mérleg.png"></div>
+                </div>
+            </section>
+            <footer>
+                <div class="social">
+                    <ul>
+                        <li><a href=""><i class="fa-brands fa-facebook"></i></a></li>
+                        <li><a href=""><i class="fa-brands fa-instagram"></i></a></li>
+                        <li><a href=""><i class="fa-brands fa-tiktok"></i></a></li>
+                        <li><a href=""><i class="fa-brands fa-youtube"></i></a></li>
+                        <li><a href=""><i class="fa-brands fa-spotify"></i></a></li>
+                    </ul>
+                </div>
+            </footer>
+        </div>
+    </body>
+    <script type="text/javascript" src="js/main.js"></script>
 </html>

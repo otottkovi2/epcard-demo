@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="css/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="shortcut icon" href="img/logo_white.png" type="image/x-icon">
         <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@200;300&display=swap" rel="stylesheet">
         <script src="https://kit.fontawesome.com/2cb600739a.js" crossorigin="anonymous"></script>
         <title>EPS - Environmental Protection System</title>
@@ -15,7 +16,7 @@
         <div class="container">
             <header>
                 <div class="logo"><img src="img/logo_white.png" alt="LOGO"></div>
-                <div class="szlogen">&bdquo;Future results, present rewards&rdquo;</div>
+                <div class="szlogen">&bdquo;Eredmény a jövőben, jutalom a jelenben.&rdquo;</div>
                 <div class="search-bar">
                     <input type="search">
                     <input type="submit" value="Keresés">
@@ -37,37 +38,21 @@
                     <li><a href="#bemutatkozas">Bemutatkozás</a></li>
                     <li><a href="#mukodese">Működése</a></li>
                     <li><a href="#besorolasok">Besorolások</a></li>
-                    <li><a href="">Statisztika</a></li>
-                    <li><a href="">Támogatás</a></li>
+                    <li><a href="#megvalositas">Megvalósítás</a></li>
+                    <li><a href="rendszer.html">Üzemeltetőknek</a></li>
                 </ul>
             </nav>
             <section id="bemutatkozas">
                 <h1>Bemutatkozás</h1>
                 <div class="bemutatkozas-container">
                     <div class="bemutatkozas-item">
-                        <img src="img/csapat.jpg">
+                        <img src="img/csapat.jpg" id="csapatkep">
                     </div>
                     <div class="bemutatkozas-item szoveg">
                         Sziasztok! Mi a GreenDevils csapat vagyunk a Szegedi SZC Vasvári Pál Gazdasági és Informatikai Technikum-ból és egy környezetvédelmi innovációs versenyen azt a feladatot kaptuk, hogy találjunk megoldást a tudatos termelésre és fogyasztásra. Rendszerünk erre a problémára nyújt megoldást.<br>
                         <b>Eredmény a jövőben, jutalom a jelenben!</b><br>
                         <a href="#" class="gomb">Megtekintem a bemutató videót!</a>
                     </div>
-                </div>
-                <!-- <h2>Bemutatkozó videónk</h2>
-                <div class="bemutatkozas-container">
-                    <div class="bemutatkozas-item">
-                        <video src="video/video.mp4"></video>
-                    </div>
-                </div> -->
-                <div class="arrow-container">
-                    <!-- <div class="arrow up">
-                        <i class="fa-sharp fa-solid fa-arrow-up"></i>
-                    </div> -->
-                    <!-- <div class="arrow down">
-                        <a href="#mukodese">
-                            <i class="fa-sharp fa-solid fa-arrow-down"></i>
-                        </a>
-                    </div> -->
                 </div>
             </section>
             <section id="mukodese">
@@ -95,33 +80,18 @@
                 <div class="card-container">
                     <div class="card">
                         <img src="img/labels/1.png" alt=""id="label1" onclick="selectLabel1();">
-                        <!-- <div class="desc">
-                            A termék teljes mértékben bio termék vagy a termék részben bio termék. A csomagolás mentesen, gyorsan lebomló vagy újrahasznosítható csomagolásban vehető.
-                        </div> -->
                     </div>
                     <div class="card">
                         <img src="img/labels/2.png" alt="" id="label2" onclick="selectLabel2();">
-                        <!-- <div class="desc">
-                            Rövid idő alatt lebomló, nem számottevő vagy közepes környezet terheléssel bíró termék. Visszaváltható , nem számottevően környezet terhelő vagy közepes idő alatt lebomló csomagolás.
-                        </div> -->
                     </div>
                     <div class="card">
                         <img src="img/labels/3.png" alt="" id="label3" onclick="selectLabel3();">
-                        <!-- <div class="desc">
-                            Környezet terhelő, közép távoú idő alatt lebomló és kis mértékben egészségre ártalmas termék vagy csomagolás.
-                        </div> -->
                     </div>
                     <div class="card">
                         <img src="img/labels/4.png" alt="" id="label4" onclick="selectLabel4();">
-                        <!-- <div class="desc">
-                            Környezet terhelő, hoszabb távon lebomló és egészségre nagyobb mértékben ártalmas termék vagy csomagolás.
-                        </div> -->
                     </div>
                     <div class="card">
                         <img src="img/labels/5.png" alt="" id="label5" onclick="selectLabel5();">
-                        <!-- <div class="desc">
-                            Magas környezet terheléssel bíró, bomlási időtől függetlenül ártalmas az egészségre és a környezetre a csomagolás vagy a termék.
-                        </div> -->
                     </div>
                 </div>
                 <div class="description" id="desc">
@@ -137,6 +107,15 @@
                     </div>
                     <div class="merleg-item"><img src="img/EPS mérleg.png"></div>
                 </div>
+            </section>
+            <section id="megvalositas">
+                <h1>Megvalósítás</h1>
+                <ul>
+                    <li>Jogalkotók</li>
+                    <li>Környezetvédelmi szakmérnökök</li>
+                    <li>Gazdasági szakértők</li>
+                </ul>
+                <div class="mondat">A rendszer bevezetéséhez nemzetközi és nemzeti törvényi kötelezésre, a rendszer népszerűsítésére és emberi összefogásra van szükség.</div>
             </section>
             <footer>
                 <div class="social">

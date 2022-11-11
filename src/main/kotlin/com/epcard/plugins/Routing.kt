@@ -55,6 +55,10 @@ fun Application.configureRouting() {
 
         }
 
+        get("/api/lastId"){
+            call.respond(ControllerFactory.Factory.controller.getMaxId())
+        }
+
         get("/api/submit") {
             call.respond(HttpStatusCode.BadRequest)
         }
@@ -87,7 +91,7 @@ fun Application.configureRouting() {
         }*/
         singlePageApplication {
             useResources = true
-            filesPath = "static/eps-web.EPS"
+            filesPath = "static/"
             defaultPage = "index.html"
         }
     }

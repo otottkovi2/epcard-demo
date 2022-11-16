@@ -60,15 +60,11 @@ class MySQLConnector {
 
     }
 
-    fun length():Int{
-        val query:Statement = connection.createStatement()
-        val queryText = "SELECT count(*) FROM $tableName"
-        val result = query.executeQuery(queryText)
+    fun getMaxId():Int{
+        val query:PreparedStatement = connection.prepareStatement("SELECT MAX(`id`) FROM companys")
+        val result:ResultSet = query.executeQuery()
         result.next()
-        val len = result.getInt(1)
-        query.close()
-
-        return len
+        return result.getInt(1)
     }
     fun addItem(product: Product){
         /*product.apply {

@@ -64,4 +64,8 @@ class DbController {
 
     }
 
+    fun getMaxId():Int{
+        return db.getMaxId()
+    }
+
 }

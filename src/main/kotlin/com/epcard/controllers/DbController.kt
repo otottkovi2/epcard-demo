@@ -12,10 +12,10 @@ class DbController {
 
 
     init {
-        try{
+        try {
             db.connect()
             //fillList()
-        } catch (e:SQLException){
+        } catch (e: SQLException) {
             e.message?.let { error(it) }
         }
 
@@ -42,14 +42,14 @@ class DbController {
         return db.getProduct(index)
     }
 
-    fun getProduct(name:String):Product?{
+    fun getProduct(name: String): Product? {
         return db.getProduct(name)
     }
 
     fun updateRating(name: String, rating: ProductRating) {
         try {
             db.updateProduct(name, "rateing", rating.ordinal)
-        } catch (e:Exception){
+        } catch (e: Exception) {
             e.message?.let { error(it) }
         }
 
@@ -58,7 +58,7 @@ class DbController {
     fun updateScore(name: String, score: Int) {
         try {
             db.updateProduct(name, "score", score)
-        } catch (e:Exception){
+        } catch (e: Exception) {
             e.message?.let { error(it) }
         }
 

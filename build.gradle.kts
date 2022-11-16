@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "com.epcard"
-version = "0.0.1"
+version = "0.1.1"
 application {
     mainClass.set("com.epcard.ApplicationKt")
 
@@ -46,4 +46,17 @@ tasks.jar {
         from(zipTree(file.absoluteFile))
     }
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+jib{
+    to{
+        image = "otottkovi/epcard-demo"
+        tags =  setOf(version.toString())
+    }
+    container {
+		mainClass = "com.epcard.ApplicationKt"
+        ports = listOf("8080","3306")
+        volumes = listOf("/resources")
+    }
+
 }

@@ -9,7 +9,7 @@ import java.sql.SQLException
 import java.sql.Statement
 
 class MySQLConnector {
-    private val dbName:String = "epcard.ddns.net"
+    private val dbName:String = "84.21.182.8"
     private val user:String = "tomi"
     private val pw:String = "Maszat19"
     private val tableName:String = "companys"
